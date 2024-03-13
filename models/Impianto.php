@@ -5,19 +5,21 @@
         private $nome;
         private $lat;
         private $long;
-        private $rilevatori = [];
+        private $rilevatori;
 
         //$nome, $lat, $long, $rilevatori
         public function __construct(){
-            $content = json_decode(file_get_contents("./data/data.json"), true);
-            $this->nome = $content["nome"];
-            $this->lat = $content["lat"];
-            $this->long = $content["long"];
-            $this->rilevatori = $content["rilevatori"];
+            $content = json_decode(file_get_contents("./data/data.json"), false);
+            $this->nome = $content->nome;
+            $this->lat = $content->lat;
+            $this->long = $content->long;
+            $this->rilevatori = $content->rilevatori;
             // $this->nome = $nome;
             // $this->lat = $lat;
             // $this->long = $long;
             // $this->rilevatori = $rilevatori;
+
+            //echo var_dump($this->rilevatori[0]);
         }
 
         public function getNome(){

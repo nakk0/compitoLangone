@@ -19,6 +19,10 @@ $app->addBodyParsingMiddleware();
 
 $app->get('/', 'SiteController:index');
 $app->get('/impianto', 'ImpiantoController:info');
+$app->get('/rilevatori_di_umidita', 'RilevatoriUmiditaController:list');
+$app->get('/rilevatori_di_umidita/{id}', 'RilevatoriUmiditaController:find');
+$app->get('/rilevatori_di_umidita/{id}/misurazioni', 'RilevatoriUmiditaController:findMisurazioni');
+$app->get('/rilevatori_di_umidita/{id}/misurazioni/maggiore_di/{value}', 'RilevatoriUmiditaController:findMisurazioniAbove');
 // $app->get('/alunni','AlunniController:alunni');
 // $app->get('/alunni/{nome}','AlunniController:alunniByNome');
 

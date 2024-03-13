@@ -7,7 +7,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
             $impianto = new Impianto();
 
-            $response->getBody()->write(json_encode($impianto)); 
+            $toEncode = [
+                "nome" => $impianto->getNome(),
+                "lat" => $impianto->getLat(),
+                "long" => $impianto->getLong()
+            ];
+
+            $response->getBody()->write(json_encode($toEncode)); 
             return $response;
         }
     }
