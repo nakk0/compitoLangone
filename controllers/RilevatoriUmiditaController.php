@@ -7,16 +7,18 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $impianto = new Impianto();
             $rilevatori = $impianto->getRilevatori();
             $rilevatoriUmidita = [];
+            $ok = false;
 
 
             foreach($rilevatori as $r){
                 if($r->id == "umidita"){
                     $rilevatoriUmidita[] = $r;
+                    $ok = true;
                 }
             }
 
-            $response->getBody()->write(json_encode($rilevatoriUmidita)); //should be rilevatoriUmidita
-            return $response;
+            $response->getBody()->write(json_encode($rilevatoriUmidita));
+            return $response->withStatus($ok? 200 : 404);
         }
 
         public function find(Request $request, Response $response, array $args){
@@ -24,6 +26,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $id = $args["id"];
             $rilevatori = $impianto->getRilevatori();
             $rilevatoriUmidita = [];
+            $ok = false;
             foreach($rilevatori as $r){
                 if($r->id == "umidita"){
                     $rilevatoriUmidita[] = $r;
@@ -33,10 +36,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             foreach($rilevatoriUmidita as $r){
                 if($r->codiceSeriale == $id){
                     $response->getBody()->write(json_encode($r));
+                    $ok = true;
                     break;
                 }
             }
-            return $response;
+            return $response->withStatus($ok? 200 : 404);
 
         }
 
@@ -45,6 +49,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $id = $args["id"];
             $rilevatori = $impianto->getRilevatori();
             $rilevatoriUmidita = [];
+            $ok = false;
             foreach($rilevatori as $r){
                 if($r->id == "umidita"){
                     $rilevatoriUmidita[] = $r;
@@ -54,10 +59,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             foreach($rilevatoriUmidita as $r){
                 if($r->codiceSeriale == $id){
                     $response->getBody()->write(json_encode($r->misurazioni));
+                    $ok = true;
                     break;
                 }
             }
-            return $response;
+            return $response->withStatus($ok? 200 : 404);
 
         }
 
@@ -67,6 +73,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $value = $args["value"];
             $rilevatori = $impianto->getRilevatori();
             $rilevatoriUmidita = [];
+            $ok = false;
             foreach($rilevatori as $r){
                 if($r->id == "umidita"){
                     $rilevatoriUmidita[] = $r;
@@ -80,12 +87,35 @@ use Psr\Http\Message\ServerRequestInterface as Request;
                     foreach($r->misurazioni as $m){
                         if($m->valore >= $value){
                             $misurazioniAbove[] = $m;
+                            $ok = true;
                         }
                     }
                 }
             }
             $response->getBody()->write(json_encode($misurazioniAbove));
-            return $response;
+            return $response->withStatus($ok? 200 : 404);
 
         }
+
+        public function create(Request $request, Response $response, array $args){
+
+            $id = "umidita";
+            $misurazioni = $args["misurazioni"];
+            $unitaMisura = "%";
+            $codiceSeriale = $args["codiceSeriale"];
+            $posizione = $args["posizione"];
+
+            $obj = [
+                "id" => $id,
+                "misurazioni" => $misurazioni,
+                "unitaMisura" => $unitaMisura,
+                "codiceSeriale" => $codiceSeriale,
+                "posizione" => $posizione,
+            ];
+
+            file_put_contents("./data/data.json",json_encode($obj));
+
+
+        }
+
     }
