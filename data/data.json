@@ -1,0 +1,19 @@
+{
+  "nome": "impiantotest",
+  "lat": "latitudine",
+  "long": "longitudine",
+  "rilevatori": [
+    {
+      "id": "umidita",
+      "unitaMisura":"%",
+      "codiceSeriale": "1",
+      "posizione" : "terra",
+      "misurazioni": [
+        {
+          "data":"ora",
+          "valore":"91"
+        }
+      ]
+    }
+  ]
+}
